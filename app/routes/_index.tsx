@@ -73,7 +73,7 @@ export default function Index() {
           <h2 className="mb-4 text-base font-semibold leading-7 text-gray-900">Follow our lastest news!</h2>
 
           <Form method="post">
-            <input className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 pl-2 pr-2 py-2 mr-4" type="email" name="email" placeholder="Enter your email" />
+            <input className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 pl-4 pr-2 py-2 mr-4" type="email" name="email" placeholder="Enter your email" />
 
             <button className="bg-indigo-600 rounded py-2 px-4 text-white" type="submit">Subscribe</button>
           </Form>
