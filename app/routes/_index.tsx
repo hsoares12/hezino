@@ -70,10 +70,12 @@ export default function Index() {
         </div>
 
         <div className="mx-auto max-w-2xl mt-16 sm:mt-20 lg:mt-24 lg:max-w-4xl lg:text-center">
-          <Form method="post">
-            <input className="rounded border-2 border-indigo-600 focus:outline-none focus:border-indigo-600 pl-2 pr-2 py-2 m-4" type="email" name="email" placeholder="Enter your email" />
+          <h2 className="mb-4 text-base font-semibold leading-7 text-gray-900">Follow our lastest news!</h2>
 
-            <button className="bg-indigo-600 rounded p-2 text-white" type="submit">Sign Up</button>
+          <Form method="post">
+            <input className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 pl-2 pr-2 py-2 mr-4" type="email" name="email" placeholder="Enter your email" />
+
+            <button className="bg-indigo-600 rounded py-2 px-4 text-white" type="submit">Subscribe</button>
           </Form>
         </div>
       </div>
