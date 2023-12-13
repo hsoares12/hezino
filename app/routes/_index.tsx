@@ -1,16 +1,78 @@
-import type { MetaFunction } from "@remix-run/node";
-import { Form } from "@remix-run/react";
-// import { Link } from "@remix-run/react";
-
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react";
+import { useEffect, useRef } from "react";
+import invariant from "tiny-invariant";
 // import { useOptionalUser } from "~/utils";
 
 export const meta: MetaFunction = () => [{ title: "hezino" }];
 
+export const action = async ({ request }: ActionFunctionArgs) => {
+  await new Promise((res) => setTimeout(res, 1200));
+
+  const formData = await  request.formData();
+  const email = formData.get("email");
+
+  invariant(process.env.NEWSLETTER_API_URL, "NEWSLETTER_API_URL must be set");
+  invariant(process.env.NEWSLETTER_API_KEY, "NEWSLETTER_API_KEY must be set");
+  invariant(process.env.NEWSLETTER_FORM_ID, "NEWSLETTER_FORM_ID must be set");
+  invariant(process.env.NEWSLETTER_TAGS, "NEWSLETTER_TAGS must be set");
+  const newsletterApiUrl = process.env.NEWSLETTER_API_URL;
+  const newsletterApiKey = process.env.NEWSLETTER_API_KEY;
+  const newsletterFormId = process.env.NEWSLETTER_FORM_ID;
+  const newsletterTags = process.env.NEWSLETTER_TAGS.split(" ");
+
+  const res = await fetch(`${newsletterApiUrl}/forms/${newsletterFormId}/subscribe`, {
+    method: "post",
+    body: JSON.stringify(
+      { 
+        email,
+        api_key: newsletterApiKey,
+        tags: newsletterTags
+      }
+    ),
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    }
+  });
+
+  return res.json();
+};
+
 export default function Index() {
   // const user = useOptionalUser();
 
+  const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+  const state: "idle" | "success" | "error" | "submitting" = navigation.state === "submitting"
+    ? "submitting"
+    : actionData?.subscription
+    ? "success"
+    : actionData?.error
+    ? "error"
+    : "idle";
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const successRef = useRef<HTMLHeadingElement>(null);
+  const mounted = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (state === "error") {
+      inputRef.current?.focus();
+    }
+
+    if (state === "idle" && mounted.current) {
+      inputRef.current?.select();
+    }
+
+    if (state === "success") {
+      successRef.current?.focus();
+    }
+
+    mounted.current = true;
+  }, [state])
+
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <main className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-indigo-600 sm:text-4xl">Hezino</h1>
@@ -72,13 +134,39 @@ export default function Index() {
         <div className="mx-auto max-w-2xl mt-16 sm:mt-20 lg:mt-24 lg:max-w-4xl lg:text-center">
           <h2 className="mb-4 text-base font-semibold leading-7 text-gray-900">Follow our lastest news!</h2>
 
-          <Form method="post">
-            <input className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 pl-4 pr-2 py-2 mr-4" type="email" name="email" placeholder="Enter your email" />
+          <Form replace method="post">
+            <fieldset disabled={state === "submitting"}>
+              <input 
+                className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 pl-4 pr-2 py-2 mr-4" 
+                aria-label="Email address"
+                aria-describedby="error-message"
+                ref={inputRef}
+                type="email" 
+                name="email" 
+                placeholder="Enter your email" 
+              />
 
-            <button className="bg-indigo-600 rounded py-2 px-4 text-white" type="submit">Subscribe</button>
+              <button className="bg-indigo-600 rounded py-2 px-4 text-white" type="submit">
+                {state === "submitting" ? "Subscribing..." : "Subscribe"}
+              </button>
+            </fieldset>
+
+            <p id="error-message">
+              {state === "error" ? actionData.message : <>&nbsp;</>}
+            </p>
           </Form>
+
+          {state === "success" ? 
+            <div>
+              <h2 ref={successRef} tabIndex={-1}>
+                You&#39;ve subscribed!
+              </h2>
+              <p>Please check your email to confirm your subscription.</p>
+              <Link to=".">Start over.</Link>
+            </div> : null
+          }
         </div>
       </div>
-    </div>
+    </main>
   );
 }
