@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
 // import { useOptionalUser } from "~/utils";
 
-export const meta: MetaFunction = () => [{ title: "hezino" }];
+export const meta: MetaFunction = () => [{ title: "Hezino", description: "Hezino homepage" }];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   await new Promise((res) => setTimeout(res, 1200));
@@ -69,7 +69,7 @@ export default function Index() {
     }
 
     mounted.current = true;
-  }, [state])
+  }, [state]);
 
   return (
     <main className="bg-white py-24 sm:py-32">
