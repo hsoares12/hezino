@@ -133,11 +133,10 @@ export default function Index() {
 
         <div className="mx-auto max-w-2xl mt-16 sm:mt-20 lg:mt-24 lg:max-w-4xl lg:text-center">
           <h2 className="mb-4 text-base font-semibold leading-7 text-gray-900">Follow our lastest news!</h2>
-
           <Form replace method="post">
             <fieldset disabled={state === "submitting"}>
               <input 
-                className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 pl-4 pr-2 py-2 mr-4" 
+                className="rounded border border-indigo-600 focus:outline-none focus:border-indigo-600 w-96 pl-4 py-2 mr-4" 
                 aria-label="Email address"
                 aria-describedby="error-message"
                 ref={inputRef}
@@ -146,7 +145,7 @@ export default function Index() {
                 placeholder="Enter your email" 
               />
 
-              <button className="bg-indigo-600 rounded py-2 px-4 text-white" type="submit">
+              <button className="rounded py-2 px-4 bg-indigo-600 text-white" type="submit">
                 {state === "submitting" ? "Subscribing..." : "Subscribe"}
               </button>
             </fieldset>
@@ -162,7 +161,7 @@ export default function Index() {
                 You&#39;ve subscribed!
               </h2>
               <p>Please check your email to confirm your subscription.</p>
-              <Link to=".">Start over.</Link>
+              <Link className="text-underline" to=".">Start over.</Link>
             </div> : null
           }
         </div>
