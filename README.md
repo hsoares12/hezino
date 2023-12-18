@@ -1,6 +1,6 @@
 # hezino
 
-[hezino.com](https://www.hezino.com/)
+[hezino.com](https://hezino.com/)
 
 ## Tech stack
 
