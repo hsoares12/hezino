@@ -50,10 +50,10 @@ export default function Index() {
     navigation.state === "submitting"
       ? "submitting"
       : actionData?.subscription
-        ? "success"
-        : actionData?.error
-          ? "error"
-          : "idle";
+      ? "success"
+      : actionData?.error
+      ? "error"
+      : "idle";
 
   const inputRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
@@ -83,7 +83,7 @@ export default function Index() {
             Hezino
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Developing modern software solutions for our customer needs.
+            Currently in construction. Stay tuned!
           </p>
         </div>
 
