@@ -83,7 +83,7 @@ export default function Index() {
             Hezino
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Developing modern software solutions for our customer needs.
+            Currently in construction. Stay tuned!
           </p>
         </div>
 
