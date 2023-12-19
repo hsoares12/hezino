@@ -50,10 +50,10 @@ export default function Index() {
     navigation.state === "submitting"
       ? "submitting"
       : actionData?.subscription
-      ? "success"
-      : actionData?.error
-      ? "error"
-      : "idle";
+        ? "success"
+        : actionData?.error
+          ? "error"
+          : "idle";
 
   const inputRef = useRef<HTMLInputElement>(null);
   const successRef = useRef<HTMLHeadingElement>(null);
