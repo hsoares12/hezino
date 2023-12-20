@@ -1,11 +1,36 @@
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Form, useActionData, useNavigation } from "@remix-run/react";
+import {
+  json,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "@remix-run/node";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
+
+import i18next from "~/i18next.server";
 
 export const meta: MetaFunction = () => [
   { title: "Hezino", description: "Hezino homepage" },
 ];
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const t = await i18next.getFixedT(request);
+  const workInProgress = t("workInProgress");
+  const followOurLatestNews = t("followOurLatestNews");
+
+  return json({
+    translations: {
+      workInProgress,
+      followOurLatestNews,
+    },
+  });
+}
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   await new Promise((res) => setTimeout(res, 1200));
@@ -41,6 +66,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function Index() {
+  const { translations } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
   const state: "idle" | "success" | "error" | "submitting" =
@@ -79,12 +105,12 @@ export default function Index() {
           Hezino
         </h1>
 
-        <h3 className="text-center text-xs">(Work in progress...)</h3>
+        <h3 className="text-center text-xs">{translations.workInProgress}</h3>
       </header>
 
       <main className="bg-white text-center">
         <h2 className="mb-4 text-base font-semibold leading-7 text-gray-900">
-          Follow our lastest news!
+          {translations.followOurLatestNews}
         </h2>
 
         <Form replace method="post">
