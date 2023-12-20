@@ -1,4 +1,4 @@
-# hezino
+# Hezino
 
 [hezino.com](https://hezino.com/)
 
@@ -9,6 +9,7 @@
 - Healthcheck endpoint for [Fly backups region fallbacks](https://fly.io/docs/reference/configuration/#services-http_checks)
 - [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
 - Email/Password Authentication with [cookie-based sessions](https://remix.run/utils/sessions#creatememorysessionstorage)
+- Server-side Internationalization (EN/FR) with [remix-i18next](https://github.com/sergiodxa/remix-i18next)
 - Database ORM with [Prisma](https://prisma.io)
 - Styling with [Tailwind](https://tailwindcss.com/)
 - End-to-end testing with [Cypress](https://cypress.io)
