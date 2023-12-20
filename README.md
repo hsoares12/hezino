@@ -1,4 +1,4 @@
-# hezino
+# Hezino
 
 [hezino.com](https://hezino.com/)
 
